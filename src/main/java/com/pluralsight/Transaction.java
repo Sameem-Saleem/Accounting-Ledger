@@ -16,7 +16,7 @@ public class Transaction {
     public final float amount;
     /** The string representation of a transaction. In the format:
      * <p>
-     * {@code YYYY-MM-DD|HH:MM:SS|DESCRIPTION|VENDOR|AMOUNT}
+     * {@code yyyy-MM-dd|HH:mm:ss|DESCRIPTION|VENDOR|AMOUNT}
      */
     private final String information;
 
