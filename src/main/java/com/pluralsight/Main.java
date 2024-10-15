@@ -18,7 +18,7 @@ public class Main {
      * Main program loop, provides terminal interface for options and interacting with data file.
      */
     public static void main(String[] args) throws IOException {
-        writer = new BufferedWriter(new FileWriter(dataFileName));
+        writer = new BufferedWriter(new FileWriter(dataFileName, true));
 
         boolean running = true;
         while (running) {
@@ -29,7 +29,6 @@ public class Main {
                 case "L" -> useLedger();
                 case "X" -> running = false;
             }
-            clearScreen();
         }
         writer.close();
         scanner.close();
@@ -64,12 +63,8 @@ public class Main {
     }
 
     /**
-     * Clears the terminal
+     * Prompts the user with necessary attributes of {@code Transaction} deposit, and appends it to data file.
      */
-    private static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-    }
-
     private static void addDeposit() throws IOException {
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String time = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss"));
@@ -81,6 +76,9 @@ public class Main {
         writer.newLine();
     }
 
+    /**
+     * Prompts the user with necessary attributes of {@code Transaction} payment, and appends it to data file.
+     */
     private static void addPayment() throws IOException {
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String time = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss"));
@@ -92,18 +90,68 @@ public class Main {
         writer.newLine();
     }
 
-    private static void useLedger() {
+    /**
+     * Ledger loop, provides terminal interface for options to view and search data file.
+     */
+    private static void useLedger() throws IOException {
         boolean running = true;
         while (running) {
             String choice = promptString("A) All\nD) Deposits\nP) Payments\nR) Reports\nH) Home").toUpperCase();
             switch (choice) {
-                case "A" -> System.out.println("todo");
-                case "D" -> System.out.println("todo");
-                case "P" -> System.out.println("todo");
+                case "A" -> viewAll();
+                case "D" -> viewDeposits();
+                case "P" -> viewPayments();
+                case "R" -> useReport();
+                case "H" -> running = false;
+            }
+        }
+    }
+
+    /**
+     * Report loop, provides terminal interface for sorting and searching data file.
+     */
+    private static void useReport() throws IOException {
+        boolean running = true;
+        while (running) {
+            String choice = promptString("A) All\nD) Deposits\nP) Payments\nR) Reports\nH) Home").toUpperCase();
+            switch (choice) {
+                case "A" -> viewAll();
+                case "D" -> viewDeposits();
+                case "P" -> viewPayments();
                 case "R" -> System.out.println("todo");
                 case "H" -> running = false;
             }
-            clearScreen();
+        }
+    }
+
+    /**
+     * Outputs all {@code Transaction}s in data file.
+     */
+    private static void viewAll() throws IOException {
+        for (Transaction n : pullData()) {
+            System.out.println(n);
+        }
+    }
+
+    /**
+     * Outputs all {@code Transaction}s in data file with positive amount, meaning a deposit.
+     */
+    private static void viewDeposits() throws IOException {
+        for (Transaction n : pullData()) {
+            if (n.amount > 0) {
+                System.out.println(n);
+            }
+        }
+    }
+
+    /**
+     * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
+     */
+    private static void viewPayments() throws IOException {
+        for (Transaction n : pullData()) {
+            if (n.amount < 0) {
+                System.out.println(n);
+            }
         }
     }
 }
