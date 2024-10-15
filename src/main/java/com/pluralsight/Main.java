@@ -14,6 +14,8 @@ public class Main {
         ArrayList<Transaction> data = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(dataFileName))) {
+//            Read the first header line to get rid of it
+            reader.readLine();
             String line;
             while ((line = reader.readLine()) != null) {
                 data.add(new Transaction(line));
