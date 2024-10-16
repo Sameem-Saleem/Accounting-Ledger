@@ -1,6 +1,5 @@
 package com.pluralsight;
 import java.io.*;
-import java.nio.Buffer;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,10 +13,14 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     // todo
     private static BufferedWriter writer;
+    /** Array holding all transaction data. */
+    private static final ArrayList<Transaction> data = new ArrayList<>();
     /**
      * Main program loop, provides terminal interface for options and interacting with data file.
      */
     public static void main(String[] args) throws IOException {
+        loadData();
+
         writer = new BufferedWriter(new FileWriter(dataFileName, true));
 
         boolean running = true;
@@ -36,20 +39,16 @@ public class Main {
 
     /**
      * Reads every line but the first in data file csv and stores them in list.
-     * @return Array with Transaction objects pulled from data file.
      */
-    private static ArrayList<Transaction> pullData() throws IOException {
-        ArrayList<Transaction> data = new ArrayList<>();
-
+    private static void loadData() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(dataFileName));
-//      Read the first header line to get rid of it
+//      Read the first header line without saving it to get rid of it
         reader.readLine();
-
-        String line;
-        while ((line = reader.readLine()) != null) {
+        String line = reader.readLine();
+        while (line != null) {
             data.add(new Transaction(line));
+            line = reader.readLine();
         }
-        return data;
     }
 
     /**
@@ -72,7 +71,9 @@ public class Main {
         String vendor = promptString("Who was the vendor correlated with this deposit?");
         String amount = String.valueOf(Float.parseFloat(promptString("How much was the deposit?")));
 
-        writer.write(date + "|" + time + "|" + description + "|" + vendor + "|" + amount);
+        String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+        data.add(new Transaction(transactionString));
+        writer.write(transactionString);
         writer.newLine();
     }
 
@@ -86,7 +87,9 @@ public class Main {
         String vendor = promptString("Who was the vendor correlated with this payment?");
         String amount = String.valueOf(-1 * Float.parseFloat(promptString("How much was the payment?")));
 
-        writer.write(date + "|" + time + "|" + description + "|" + vendor + "|" + amount);
+        String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+        data.add(new Transaction(transactionString));
+        writer.write(transactionString);
         writer.newLine();
     }
 
@@ -128,7 +131,7 @@ public class Main {
      * Outputs all {@code Transaction}s in data file.
      */
     private static void viewAll() throws IOException {
-        for (Transaction n : pullData()) {
+        for (Transaction n : data) {
             System.out.println(n);
         }
     }
@@ -137,7 +140,7 @@ public class Main {
      * Outputs all {@code Transaction}s in data file with positive amount, meaning a deposit.
      */
     private static void viewDeposits() throws IOException {
-        for (Transaction n : pullData()) {
+        for (Transaction n : data) {
             if (n.amount > 0) {
                 System.out.println(n);
             }
@@ -148,7 +151,7 @@ public class Main {
      * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
      */
     private static void viewPayments() throws IOException {
-        for (Transaction n : pullData()) {
+        for (Transaction n : data) {
             if (n.amount < 0) {
                 System.out.println(n);
             }
