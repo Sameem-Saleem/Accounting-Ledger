@@ -109,6 +109,19 @@ public class Transaction {
      */
     @Override
     public String toString() {
-        return "Description: " + this.description + "\nVendor: " + this.vendor + "\nAmount: $" + this.amount + "\nTags: " + Arrays.toString(this.tags) + "\nCreated: " + this.date + ", " + this.time + "\n";
+        return this.description +
+                " ".repeat(30 - this.description.length()) +
+                this.vendor +
+                " ".repeat(30 - this.vendor.length()) + "$" +
+                this.amount +
+                " ".repeat(30 - Float.toString(this.amount).length()) +
+                Arrays.toString(this.tags) +
+                " ".repeat(30 - Arrays.toString(this.tags).length()) +
+                this.date +
+                " ".repeat(30 - this.date.toString().length()) +
+                this.time +
+                " ".repeat(30 - this.time.toString().length());
+
+//        return "Description: " + this.description + "\nVendor: " + this.vendor + "\nAmount: $" + this.amount + "\nTags: " + Arrays.toString(this.tags) + "\nCreated: " + this.date + ", " + this.time + "\n";
     }
 }

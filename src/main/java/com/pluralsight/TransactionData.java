@@ -111,6 +111,7 @@ public class TransactionData {
      * Outputs all {@code Transaction}s in data file.
      */
     public static void viewAll() throws IOException {
+        showHeader();
         for (Transaction n : getData()) {
             System.out.println(n);
         }
@@ -120,6 +121,7 @@ public class TransactionData {
      * Outputs all {@code Transaction}s in data file with positive amount, meaning a deposit.
      */
     public static void viewDeposits() throws IOException {
+        showHeader();
         for (Transaction n : getData()) {
             if (n.getAmount() > 0) {
                 System.out.println(n);
@@ -131,6 +133,7 @@ public class TransactionData {
      * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
      */
     public static void viewPayments() throws IOException {
+        showHeader();
         for (Transaction n : getData()) {
             if (n.getAmount() < 0) {
                 System.out.println(n);
@@ -142,6 +145,7 @@ public class TransactionData {
      * Outputs all {@code Transaction}s in data file made after start of current month.
      */
     public static void viewMonthToDate() throws IOException {
+        showHeader();
         LocalDate currentDate = LocalDate.now();
         LocalDate startOfCurrMonth = LocalDate.parse(currentDate.getYear() + "-" + (currentDate.getMonthValue()) + "-" + "1", DateTimeFormatter.ofPattern("yyyy-M-d")).minusDays(1);
         for (Transaction n : getData()) {
@@ -155,6 +159,7 @@ public class TransactionData {
      * Outputs all {@code Transaction}s in data file made before start of current month and after start of last month.
      */
     public static void viewPreviousMonth() throws IOException {
+        showHeader();
         LocalDate currentDate = LocalDate.now();
         LocalDate startOfCurrMonth = LocalDate.parse(currentDate.getYear() + "-" + (currentDate.getMonthValue()) + "-" + "1", DateTimeFormatter.ofPattern("yyyy-M-d"));
         LocalDate startOfLastMonth = LocalDate.parse(currentDate.getYear() + "-" + (currentDate.getMonthValue() - 1) + "-" + "1", DateTimeFormatter.ofPattern("yyyy-M-d")).minusDays(1);
@@ -169,6 +174,7 @@ public class TransactionData {
      * Outputs all {@code Transaction}s in data file made after the start of the current year.
      */
     public static void viewYearToDate() throws IOException {
+        showHeader();
         LocalDate currentDate = LocalDate.now();
         LocalDate startOfCurrYear = LocalDate.parse((currentDate.getYear()) + "-01-01").minusDays(1);
         for (Transaction n : getData()) {
@@ -182,6 +188,7 @@ public class TransactionData {
      * Outputs all {@code Transaction}s in data file made before the start of this year and after the start of last year.
      */
     public static void viewPreviousYear() throws IOException {
+        showHeader();
         LocalDate currentDate = LocalDate.now();
         LocalDate startOfCurrYear = LocalDate.parse((currentDate.getYear()) + "-01-01");
         LocalDate startOfLastYear = LocalDate.parse((currentDate.getYear() - 1) + "-01-01").minusDays(1);
@@ -197,6 +204,7 @@ public class TransactionData {
      * @param vendor The vendor to match Transactions with.
      */
     public static void viewByVendor(String vendor) throws IOException {
+        showHeader();
         for (Transaction n : getData()) {
             if (n.getVendor().equals(vendor)) {
                 System.out.println(n);
@@ -244,9 +252,28 @@ public class TransactionData {
         if (!amount.equals("")) {
             searchResult.removeIf(n -> n.getAmount() != Float.parseFloat(amount));
         }
+        showHeader();
         for (Transaction n : searchResult) {
             System.out.println(n);
         }
+    }
+    /**
+     * Displays header with all the categories.
+     */
+    public static void showHeader() {
+        System.out.println("[Description" +
+                "-".repeat(17) +
+                "][Vendor" +
+                "-".repeat(22) +
+                "][Amount"+
+                "-".repeat(22) +
+                "][Tags" +
+                "-".repeat(24) +
+                "][Date" +
+                "-".repeat(24) +
+                "][Time" +
+                "-".repeat(24) +
+                "]");
     }
 
     /**
