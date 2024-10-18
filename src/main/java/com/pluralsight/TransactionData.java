@@ -102,7 +102,7 @@ public class TransactionData {
      */
     public static void viewMonthToDate() throws IOException {
         LocalDate currentDate = LocalDate.now();
-        LocalDate startOfCurrMonth = LocalDate.parse(currentDate.getYear() + "-" + (currentDate.getMonthValue()) + "-" + "1", DateTimeFormatter.ofPattern("yyyy-M-d"));
+        LocalDate startOfCurrMonth = LocalDate.parse(currentDate.getYear() + "-" + (currentDate.getMonthValue()) + "-" + "1", DateTimeFormatter.ofPattern("yyyy-M-d")).minusDays(1);
         for (Transaction n : getData()) {
             if (n.getDate().isAfter(startOfCurrMonth)) {
                 System.out.println(n);
@@ -116,7 +116,7 @@ public class TransactionData {
     public static void viewPreviousMonth() throws IOException {
         LocalDate currentDate = LocalDate.now();
         LocalDate startOfCurrMonth = LocalDate.parse(currentDate.getYear() + "-" + (currentDate.getMonthValue()) + "-" + "1", DateTimeFormatter.ofPattern("yyyy-M-d"));
-        LocalDate startOfLastMonth = LocalDate.parse(currentDate.getYear() + "-" + (currentDate.getMonthValue() - 1) + "-" + "1", DateTimeFormatter.ofPattern("yyyy-M-d"));
+        LocalDate startOfLastMonth = LocalDate.parse(currentDate.getYear() + "-" + (currentDate.getMonthValue() - 1) + "-" + "1", DateTimeFormatter.ofPattern("yyyy-M-d")).minusDays(1);
         for (Transaction n : getData()) {
             if (n.getDate().isAfter(startOfLastMonth) && n.getDate().isBefore(startOfCurrMonth)) {
                 System.out.println(n);
@@ -129,7 +129,7 @@ public class TransactionData {
      */
     public static void viewYearToDate() throws IOException {
         LocalDate currentDate = LocalDate.now();
-        LocalDate startOfCurrYear = LocalDate.parse((currentDate.getYear()) + "-01-01");
+        LocalDate startOfCurrYear = LocalDate.parse((currentDate.getYear()) + "-01-01").minusDays(1);
         for (Transaction n : getData()) {
             if (n.getDate().isAfter(startOfCurrYear)) {
                 System.out.println(n);
@@ -143,7 +143,7 @@ public class TransactionData {
     public static void viewPreviousYear() throws IOException {
         LocalDate currentDate = LocalDate.now();
         LocalDate startOfCurrYear = LocalDate.parse((currentDate.getYear()) + "-01-01");
-        LocalDate startOfLastYear = LocalDate.parse((currentDate.getYear() - 1) + "-01-01");
+        LocalDate startOfLastYear = LocalDate.parse((currentDate.getYear() - 1) + "-01-01").minusDays(1);
         for (Transaction n : getData()) {
             if (n.getDate().isAfter(startOfLastYear) && n.getDate().isBefore(startOfCurrYear)) {
                 System.out.println(n);
