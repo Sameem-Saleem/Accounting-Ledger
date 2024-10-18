@@ -128,8 +128,11 @@ public class TransactionData {
      * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
      */
     public static void viewYearToDate() throws IOException {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate startOfCurrYear = LocalDate.parse((currentDate.getYear()) + "-01-01");
+        LocalDate startOfLastYear = LocalDate.parse((currentDate.getYear() - 1) + "-01-01");
         for (Transaction n : getData()) {
-            if (n.getAmount() < 0) {
+            if (n.getDate().isAfter(startOfLastYear) && n.getDate().isBefore(startOfCurrYear)) {
                 System.out.println(n);
             }
         }
@@ -139,8 +142,11 @@ public class TransactionData {
      * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
      */
     public static void viewPreviousYear() throws IOException {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate startOfCurrYear = LocalDate.parse((currentDate.getYear()) + "-01-01");
+        LocalDate startOfLastYear = LocalDate.parse((currentDate.getYear() - 1) + "-01-01");
         for (Transaction n : getData()) {
-            if (n.getAmount() < 0) {
+            if (n.getDate().isAfter(startOfLastYear) && n.getDate().isBefore(startOfCurrYear)) {
                 System.out.println(n);
             }
         }
