@@ -7,7 +7,7 @@ Note that information entered must follow the guidelines expressed in the docume
 
 ## Table Of Content
 - [Start Screen](#start-screen)
-    - [Access](#login)
+    - [Access](#access)
     - [Default](#default)
     - [Exit](#exit)
 - [Home Screen](#home-screen)
@@ -38,7 +38,15 @@ Note that information entered must follow the guidelines expressed in the docume
 
 
 ## Installation
-You can pull this repository locally to access the program. Make sure to use a Java IDE to run the program, or manually compile with Javac and run with Java. 
+You can pull this repository locally to access the program. Make sure to use a Java IDE to run the program, or manually compile with Javac and run with Java. Steps are below
+1. `git clone https://github.com/Sameem-Saleem/Accounting-Ledger.git`
+2. `javac src/main/java/com/pluralsight/Main`
+3. `java src/main/java/com/pluralsight/Main`
+
+Suggested software:
+- [Java JDK](https://www.oracle.com/th/java/technologies/downloads) 
+- [JetBrains IntelliJ](https://www.jetbrains.com/idea/download/)
+
 
 If you have **previous transactions** you want to import, you must **add them manually** into the **transactions.csv** file (or whatever csv file you want to create), splitting the fields like the following (also, add the following line to the front of the file):
 `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT`
