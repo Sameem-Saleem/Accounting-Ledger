@@ -47,13 +47,14 @@ public class Display {
     private static void useReport() throws IOException {
         boolean running = true;
         while (running) {
-            String choice = promptString("A) All\nD) Deposits\nP) Payments\nR) Reports\nH) Home").toUpperCase();
+            String choice = promptString("1) Month To Date\n2) Previous Month\n3) Year To Date\n4) Previous Year\n5) Search by Vendor\n0) Back").toUpperCase();
             switch (choice) {
-                case "A" -> TransactionData.viewAll();
-                case "D" -> TransactionData.viewDeposits();
-                case "P" -> TransactionData.viewPayments();
-                case "R" -> System.out.println("todo");
-                case "H" -> running = false;
+                case "1" -> TransactionData.viewMonthToDate();
+                case "2" -> TransactionData.viewPreviousMonth();
+                case "3" -> TransactionData.viewYearToDate();
+                case "4" -> TransactionData.viewPreviousYear();
+                case "5" -> TransactionData.viewByVendor(promptString("Please vendor name"));
+                case "0" -> running = false;
             }
         }
     }

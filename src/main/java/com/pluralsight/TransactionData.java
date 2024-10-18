@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class TransactionData {
     /** Writer to append onto data file. */
@@ -69,16 +70,18 @@ public class TransactionData {
      * Outputs all {@code Transaction}s in data file.
      */
     public static void viewAll() throws IOException {
-        for (Transaction n : data) {
+        for (Transaction n : getData()) {
             System.out.println(n);
         }
     }
+
+// should be opposite order, newest first!
 
     /**
      * Outputs all {@code Transaction}s in data file with positive amount, meaning a deposit.
      */
     public static void viewDeposits() throws IOException {
-        for (Transaction n : data) {
+        for (Transaction n : getData()) {
             if (n.getAmount() > 0) {
                 System.out.println(n);
             }
@@ -89,7 +92,7 @@ public class TransactionData {
      * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
      */
     public static void viewPayments() throws IOException {
-        for (Transaction n : TransactionData.getData()) {
+        for (Transaction n : getData()) {
             if (n.getAmount() < 0) {
                 System.out.println(n);
             }
@@ -97,11 +100,72 @@ public class TransactionData {
     }
 
     /**
+     * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
+     */
+    public static void viewMonthToDate() throws IOException {
+        for (Transaction n : getData()) {
+            if (n.getAmount() < 0) {
+                System.out.println(n);
+            }
+        }
+    }
+
+    /**
+     * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
+     */
+    public static void viewPreviousMonth() throws IOException {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate startOfCurrMonth = LocalDate.parse(currentDate.getYear() + (currentDate.getMonthValue()) + "0");
+        LocalDate startOfLastMonth = LocalDate.parse(currentDate.getYear() + (currentDate.getMonthValue() - 1) + "0");
+        for (Transaction n : getData()) {
+            if (n.getDate().isAfter(startOfLastMonth) && n.getDate().isBefore(startOfCurrMonth)) {
+                System.out.println(n);
+            }
+        }
+    }
+
+    /**
+     * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
+     */
+    public static void viewYearToDate() throws IOException {
+        for (Transaction n : getData()) {
+            if (n.getAmount() < 0) {
+                System.out.println(n);
+            }
+        }
+    }
+
+    /**
+     * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
+     */
+    public static void viewPreviousYear() throws IOException {
+        for (Transaction n : getData()) {
+            if (n.getAmount() < 0) {
+                System.out.println(n);
+            }
+        }
+    }
+
+    /**
+     * Outputs all {@code Transaction}s in data file with matching vendor.
+     * @param vendor The vendor to match Transactions with.
+     */
+    public static void viewByVendor(String vendor) throws IOException {
+        for (Transaction n : getData()) {
+            if (n.getVendor().equals(vendor)) {
+                System.out.println(n);
+            }
+        }
+    }
+
+    /**
      * Provides a way to access the data in the TransactionData class.
-     * @return Data with all tracked Transaction instances.
+     * @return Copy of data with all tracked Transaction instances in reverse order.
      */
     public static ArrayList<Transaction> getData() {
-        return data;
+        ArrayList<Transaction> clone = new ArrayList<>(data);
+        Collections.reverse(clone);
+        return clone;
     }
 
     /**
