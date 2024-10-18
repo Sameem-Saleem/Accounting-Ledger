@@ -1,11 +1,15 @@
 # Accounting Ledger
 This application can help track all financial transactions for a business or for personal use, with a simple terminal interface including multiple menus to streamline user-experience.
 
-Note that information entered must follow the guidelines expressed in the documentation and this `README.md`, otherwise, if an error occurs, entered transactions will not be saved to the `transactions.csv` file.
+Note that information entered must follow the guidelines expressed in the documentation and this `README.md`, otherwise, if an error occurs, entered transactions will not be saved to the `transactions.csv` or specific file.
 
 
 
 ## Table Of Content
+- [Start Screen](#start-screen)
+    - [Access](#login)
+    - [Default](#default)
+    - [Exit](#exit)
 - [Home Screen](#home-screen)
     - [Add Deposit](#add-deposit)
     - [Make Payment](#make-payment)
@@ -36,7 +40,7 @@ Note that information entered must follow the guidelines expressed in the docume
 ## Installation
 You can pull this repository locally to access the program. Make sure to use a Java IDE to run the program, or manually compile with Javac and run with Java. 
 
-If you have **previous transactions** you want to import, you must **add them manually** into the **transactions.csv** file, splitting the fields like the following:
+If you have **previous transactions** you want to import, you must **add them manually** into the **transactions.csv** file (or whatever csv file you want to create), splitting the fields like the following (also, add the following line to the front of the file):
 `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT`
 
 Example:
@@ -46,6 +50,34 @@ Notes:
 - The **date** *must be* in `YYYY-MM-DD` format
 - The **time** *must be* in `HH:MM:SS` 24 hour format 
 - The **amount** *must be* in a float format, such as: `-50.0` 
+
+
+
+## Start Screen
+The start screen looks like the following:
+
+![Start Screen](https://cdn.discordapp.com/attachments/219982898550276096/1296933134943653898/Screenshot_2024-10-18_132712.png?ex=6714169b&is=6712c51b&hm=6120de22ed30e423e8ce86a5c1a3392bbb24686325b5cc39b2b704742821f590&)
+
+It provides the options to access a specific file, access the default file, and exit the program. The option chosen here determines what file the rest of the runtime will write to.
+
+The user must enter the key correlating to the menu item, and press enter. *This is not case-sensitive.*
+
+
+
+### Access
+This option takes in an access point, or filename, creating or loading the corresponding file. 
+
+If the file is newly created, it will prepend `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT` to the front of the file.
+
+
+
+### Default
+This option uses the default `transactions.csv` file as an access point, loading the `transactions.csv` file. 
+
+
+
+### Exit
+This option closes the program.
 
 
 
@@ -63,7 +95,7 @@ The user must enter the key correlating to the menu item, and press enter. *This
 ### Add Deposit
 This option takes in a description, vendor, and deposit amount, generating the date and time via system. 
 
-This information is then appended in to the `transactions.csv` file in `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT` format, where the amount if positive, indicating a deposit.
+This information is then appended in to the `transactions.csv` file or accessed file in `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT` format, where the amount if positive, indicating a deposit.
 
 The following image displays adding a deposit:
 
@@ -74,7 +106,7 @@ The following image displays adding a deposit:
 ### Make Payment
 This option takes in a description, vendor, and amount of payment, generating the date and time via system. 
 
-This information is then appended in to the `transactions.csv` file in `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT` format, where the amount if negative, indicating a payment.
+This information is then appended in to the `transactions.csv` file or accessed file in `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT` format, where the amount if negative, indicating a payment.
 
 The following image displays making a payment:
 
@@ -108,17 +140,17 @@ The user must enter the key correlating to the menu item, and press enter. This 
 
 
 ### All
-This option outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file, descending order of date created.
+This option outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file or accessed file, descending order of date created.
 
 
 
 ### Deposits
-This option outputs all deposits created during runtime and saved in the `transactions.csv` file, descending order of date created.
+This option outputs all deposits created during runtime and saved in the `transactions.csv` file or accessed file, descending order of date created.
 
 
 
 ### Payments
-This option outputs all payments created during runtime and saved in the `transactions.csv` file, descending order of date created.
+This option outputs all payments created during runtime and saved in the `transactions.csv` file or accessed file, descending order of date created.
 
 
 
@@ -144,29 +176,29 @@ It provides the options to filter transactions, use the custom search feature, a
 
 
 ### Month To Date
-This option outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file, **that were made during the current month**, descending order of date created.
+This option outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file or accessed file, **that were made during the current month**, descending order of date created.
 
 
 
 ### Previous Month
-This option outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file, **that were made last month**, descending order of date created.
+This option outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file or accessed file, **that were made last month**, descending order of date created.
 
 
 
 ### Year To Date
-This option outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file, **that were made during the current year**, descending order of date created.
+This option outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file or accessed file, **that were made during the current year**, descending order of date created.
 
 
 
 ### Previous Year
-This option outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file, **that were made last year**, descending order of date created.
+This option outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file or accessed file, **that were made last year**, descending order of date created.
 
 
 
 ### Search by Vendor
 This option first asks for an input (a vendor to match transactions with).
 
-Then, it outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file, **that have a matching vendor to the input**, descending order of date created.
+Then, it outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file or accessed file, **that have a matching vendor to the input**, descending order of date created.
 
 
 
@@ -179,7 +211,7 @@ This option prompts the following:
 - Amount
 For any of these options, the user can click enter without typing anything, and it will skip that filter.
 
-Then, it outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file, **that match all of the entered parameters**, descending order of date created.
+Then, it outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file or accessed file, **that match all of the entered parameters**, descending order of date created.
 
 
 
