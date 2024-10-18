@@ -38,7 +38,7 @@ Note that information entered must follow the guidelines expressed in the docume
 
 
 ## Installation
-You can pull this repository locally to access the program. Make sure to use a Java IDE to run the program, or manually compile with Javac and run with Java. Steps are below
+You can pull this repository locally to access the program. Make sure to use a Java IDE to run the program, or manually compile with Javac and run with Java. Steps are below:
 1. `git clone https://github.com/Sameem-Saleem/Accounting-Ledger.git`
 2. `javac src/main/java/com/pluralsight/Main`
 3. `java src/main/java/com/pluralsight/Main`
