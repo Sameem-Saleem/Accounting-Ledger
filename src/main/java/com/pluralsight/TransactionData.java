@@ -39,13 +39,16 @@ public class TransactionData {
         String description = Display.promptString("What is the description of this deposit?");
         String vendor = Display.promptString("Who was the vendor correlated with this deposit?");
 
-        // TODO: return here if input == 0 OR negative number <= 0
         String amount = String.valueOf(Float.parseFloat(Display.promptString("How much was the deposit?")));
 
-        String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
-        data.add(new Transaction(transactionString));
-        writer.write(transactionString);
-        writer.newLine();
+        if (Float.parseFloat(amount) <= 0) {
+            String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+            data.add(new Transaction(transactionString));
+            writer.write(transactionString);
+            writer.newLine();
+        } else {
+            System.out.println("Not saved: Please enter a positive number next time.");
+        }
     }
 
     /**
@@ -57,13 +60,16 @@ public class TransactionData {
         String description = Display.promptString("What is the description of this payment?");
         String vendor = Display.promptString("Who was the vendor correlated with this payment?");
 
-        // TODO: return here if input == 0 OR negative number <= 0
         String amount = String.valueOf(-1 * Float.parseFloat(Display.promptString("How much was the payment?")));
 
-        String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
-        data.add(new Transaction(transactionString));
-        writer.write(transactionString);
-        writer.newLine();
+        if (Float.parseFloat(amount) <= 0) {
+            String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+            data.add(new Transaction(transactionString));
+            writer.write(transactionString);
+            writer.newLine();
+        } else {
+            System.out.println("Not saved: Please enter a positive number next time");
+        }
     }
 
     /**
