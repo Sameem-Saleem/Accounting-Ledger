@@ -100,18 +100,20 @@ public class TransactionData {
     }
 
     /**
-     * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
+     * Outputs all {@code Transaction}s in data file made after start of current month.
      */
     public static void viewMonthToDate() throws IOException {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate startOfCurrMonth = LocalDate.parse(currentDate.getYear() + "-" + (currentDate.getMonthValue()) + "-" + "1", DateTimeFormatter.ofPattern("yyyy-M-d"));
         for (Transaction n : getData()) {
-            if (n.getAmount() < 0) {
+            if (n.getDate().isAfter(startOfCurrMonth)) {
                 System.out.println(n);
             }
         }
     }
 
     /**
-     * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
+     * Outputs all {@code Transaction}s in data file made before start of current month and after start of last month.
      */
     public static void viewPreviousMonth() throws IOException {
         LocalDate currentDate = LocalDate.now();
@@ -125,7 +127,7 @@ public class TransactionData {
     }
 
     /**
-     * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
+     * Outputs all {@code Transaction}s in data file made after the start of the current year.
      */
     public static void viewYearToDate() throws IOException {
         LocalDate currentDate = LocalDate.now();
@@ -138,7 +140,7 @@ public class TransactionData {
     }
 
     /**
-     * Outputs all {@code Transaction}s in data file with negative amount, meaning a payment.
+     * Outputs all {@code Transaction}s in data file made before the start of this year and after the start of last year.
      */
     public static void viewPreviousYear() throws IOException {
         LocalDate currentDate = LocalDate.now();
