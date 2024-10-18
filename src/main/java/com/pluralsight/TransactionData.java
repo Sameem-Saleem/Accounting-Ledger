@@ -115,8 +115,8 @@ public class TransactionData {
      */
     public static void viewPreviousMonth() throws IOException {
         LocalDate currentDate = LocalDate.now();
-        LocalDate startOfCurrMonth = LocalDate.parse(currentDate.getYear() + (currentDate.getMonthValue()) + "0");
-        LocalDate startOfLastMonth = LocalDate.parse(currentDate.getYear() + (currentDate.getMonthValue() - 1) + "0");
+        LocalDate startOfCurrMonth = LocalDate.parse(currentDate.getYear() + "-" + (currentDate.getMonthValue()) + "-" + "1", DateTimeFormatter.ofPattern("yyyy-M-d"));
+        LocalDate startOfLastMonth = LocalDate.parse(currentDate.getYear() + "-" + (currentDate.getMonthValue() - 1) + "-" + "1", DateTimeFormatter.ofPattern("yyyy-M-d"));
         for (Transaction n : getData()) {
             if (n.getDate().isAfter(startOfLastMonth) && n.getDate().isBefore(startOfCurrMonth)) {
                 System.out.println(n);
