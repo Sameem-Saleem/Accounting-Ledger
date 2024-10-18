@@ -47,16 +47,30 @@ public class Display {
     private static void useReport() throws IOException {
         boolean running = true;
         while (running) {
-            String choice = promptString("1) Month To Date\n2) Previous Month\n3) Year To Date\n4) Previous Year\n5) Search by Vendor\n0) Back").toUpperCase();
+            String choice = promptString("1) Month To Date\n2) Previous Month\n3) Year To Date\n4) Previous Year\n5) Search by Vendor\n6) Custom Search\n0) Back").toUpperCase();
             switch (choice) {
                 case "1" -> TransactionData.viewMonthToDate();
                 case "2" -> TransactionData.viewPreviousMonth();
                 case "3" -> TransactionData.viewYearToDate();
                 case "4" -> TransactionData.viewPreviousYear();
-                case "5" -> TransactionData.viewByVendor(promptString("Please vendor name"));
+                case "5" -> TransactionData.viewByVendor(promptString("Please enter vendor name"));
+                case "6" -> customSearch();
                 case "0" -> running = false;
             }
         }
+    }
+
+    /**
+     * Allows user to search with Start Date, End Date, Description, Vendor, and Amount. Case sensitive.
+     */
+    private static void customSearch() throws IOException {
+        System.out.println("Welcome to Custom Search. Leave any field empty to not search.");
+        String startDate = promptString("Start Date (yyyy-MM-dd format)");
+        String endDate = promptString("End Date (yyyy-MM-dd) format");
+        String description = promptString("Description");
+        String vendor = promptString("Vendor");
+        String amount = promptString("Amount");
+        TransactionData.viewByCustomSearch(startDate, endDate, description, vendor, amount);
     }
 
     /**

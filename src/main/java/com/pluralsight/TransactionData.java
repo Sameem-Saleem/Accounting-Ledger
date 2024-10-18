@@ -75,8 +75,6 @@ public class TransactionData {
         }
     }
 
-// should be opposite order, newest first!
-
     /**
      * Outputs all {@code Transaction}s in data file with positive amount, meaning a deposit.
      */
@@ -162,6 +160,38 @@ public class TransactionData {
             if (n.getVendor().equals(vendor)) {
                 System.out.println(n);
             }
+        }
+    }
+
+    /**
+     * Outputs all {@code Transaction}s in data file with matching parameters. Does not search parameter string empty.
+     * @param startDate The start date (yyyy-MM-dd format) to match Transactions with.
+     * @param endDate The end date (yyyy-MM-dd format) to match Transactions with.
+     * @param description The description to match Transactions with.
+     * @param vendor The vendor to match Transactions with.
+     * @param amount The amount to match Transactions with.
+     */
+    public static void viewByCustomSearch(String startDate, String endDate, String description, String vendor, String amount) throws IOException {
+        ArrayList<Transaction> searchResult = getData();
+
+        if (!startDate.equals("")) {
+            searchResult.removeIf(n -> n.getDate().isBefore(LocalDate.parse(startDate)));
+        }
+        if (!endDate.equals("")) {
+            searchResult.removeIf(n -> n.getDate().isAfter(LocalDate.parse(endDate)));
+        }
+        if (!description.equals("")) {
+            searchResult.removeIf(n -> !n.getDescription().equals(description));
+        }
+        if (!vendor.equals("")) {
+            searchResult.removeIf(n -> !n.getVendor().equals(vendor));
+        }
+        if (!amount.equals("")) {
+            searchResult.removeIf(n -> n.getAmount() != Float.parseFloat(amount));
+        }
+
+        for (Transaction n : searchResult) {
+            System.out.println(n);
         }
     }
 
