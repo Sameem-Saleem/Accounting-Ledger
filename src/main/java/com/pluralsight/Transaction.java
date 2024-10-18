@@ -1,6 +1,7 @@
 package com.pluralsight;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 
 public class Transaction {
 
@@ -22,6 +23,10 @@ public class Transaction {
      * {@code yyyy-MM-dd|HH:mm:ss|DESCRIPTION|VENDOR|AMOUNT}
      */
     private final String information;
+    /** The string array with tags of a transaction. In the format:
+     *
+     */
+    private final String[] tags;
 
     /**
      * @param information
@@ -40,6 +45,7 @@ public class Transaction {
         this.description = values[2];
         this.vendor = values[3];
         this.amount = Float.parseFloat(values[4]);
+        this.tags = values[5].split(",");
     }
 
     /**
@@ -90,11 +96,19 @@ public class Transaction {
         return information;
     }
 
+    /**
+     * Gets the {@code String[]} with all tags related to the transaction.
+     * @return A {@code String[]} with all tags of transaction.
+     */
+    public String[] getTags() {
+        return this.tags;
+    }
+
     /** Returns the {@code String} representation of the {@code Transaction} object.
      * @return {@code YYYY-MM-DD|HH:MM:SS|DESCRIPTION|VENDOR|AMOUNT}
      */
     @Override
     public String toString() {
-        return this.information;
+        return "Description: " + this.description + "\nVendor: " + this.vendor + "\nAmount: $" + this.amount + "\nTags: " + Arrays.toString(this.tags) + "\nCreated: " + this.date + ", " + this.time + "\n";
     }
 }

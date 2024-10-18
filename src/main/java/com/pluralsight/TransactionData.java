@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class TransactionData {
@@ -11,18 +12,21 @@ public class TransactionData {
     private static BufferedWriter writer;
     /** Array holding all transaction data. */
     private static final ArrayList<Transaction> data = new ArrayList<>();
-    /** The csv file which transaction information is written to. */
-    private static final String DATAFILENAME = "transactions.csv";
     /**
      * Reads every line but the first in data file csv and stores them in list.
      */
-    public static void loadData() throws IOException {
-//        Initialize the writer for later use
-        writer = new BufferedWriter(new FileWriter(DATAFILENAME, true));
-        BufferedReader reader = new BufferedReader(new FileReader(DATAFILENAME));
-//        Read the first header line without saving it to get rid of it
+    public static void loadData(String file) throws IOException {
+        // Initialize the writer for later use.
+        writer = new BufferedWriter(new FileWriter(file, true));
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        // Read the first header line without saving it to get rid of it.
         reader.readLine();
         String line = reader.readLine();
+        // Add first line if not exists.
+        if (line == null) {
+            writer.write("DATE|TIME|DESCRIPTION|VENDOR|AMOUNT|TAGS");
+            writer.newLine();
+        }
         while (line != null) {
             data.add(new Transaction(line));
             line = reader.readLine();
@@ -38,11 +42,12 @@ public class TransactionData {
         String time = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss"));
         String description = Display.promptString("What is the description of this deposit?");
         String vendor = Display.promptString("Who was the vendor correlated with this deposit?");
+        String tags = Display.promptString("What tags are related? (Separate with comma, no spaces)");
 
-        String amount = String.valueOf(Float.parseFloat(Display.promptString("How much was the deposit?")));
+        String amount = Display.promptString("How much was the deposit?");
 
-        if (Float.parseFloat(amount) <= 0) {
-            String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+        if (Float.parseFloat(amount) >= 0) {
+            String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + amount + "|" + tags;
             data.add(new Transaction(transactionString));
             writer.write(transactionString);
             writer.newLine();
@@ -59,16 +64,46 @@ public class TransactionData {
         String time = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss"));
         String description = Display.promptString("What is the description of this payment?");
         String vendor = Display.promptString("Who was the vendor correlated with this payment?");
+        String tags = Display.promptString("What tags are related. Separate with comma, no spaces");
 
         String amount = String.valueOf(-1 * Float.parseFloat(Display.promptString("How much was the payment?")));
 
-        if (Float.parseFloat(amount) <= 0) {
-            String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+        if (Float.parseFloat(amount) >= 0) {
+            String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + amount + "|" + tags;
             data.add(new Transaction(transactionString));
             writer.write(transactionString);
             writer.newLine();
         } else {
             System.out.println("Not saved: Please enter a positive number next time");
+        }
+    }
+
+    /**
+     * Prompts the user to search by one or more tags, searching all {@code Transaction}s in {transactions.csv}.
+     */
+    public static void searchTags() throws IOException {
+        viewTags();
+        String term = Display.promptString("Select a tag to search");
+        for (Transaction n : getData()) {
+            if (Arrays.asList(n.getTags()).contains(term)) {
+                System.out.println(n);
+            }
+        }
+    }
+
+    /**
+     * Outputs all tags that are in the {@code Transaction} objects in {@code transactions.csv}. Doesn't repeat.
+     */
+    public static void viewTags() throws IOException {
+        ArrayList<String> tags = new ArrayList<>();
+        System.out.println("All tags are:");
+        for (Transaction n : getData()) {
+            for (String tag : n.getTags()) {
+                if (!tags.contains(tag)) {
+                    tags.add(tag);
+                    System.out.println(tag);
+                }
+            }
         }
     }
 
@@ -170,14 +205,28 @@ public class TransactionData {
     }
 
     /**
-     * Outputs all {@code Transaction}s in data file with matching parameters. Does not search parameter string empty.
-     * @param startDate The start date (yyyy-MM-dd format) to match Transactions with.
-     * @param endDate The end date (yyyy-MM-dd format) to match Transactions with.
-     * @param description The description to match Transactions with.
-     * @param vendor The vendor to match Transactions with.
-     * @param amount The amount to match Transactions with.
+     * Outputs all {@code Transaction}s in data file with matching inputs. Does not search empty inputs.
+     * <p>
+     * startDate The start date (yyyy-MM-dd format) to match Transactions with.
+     * <p>
+     * endDate The end date (yyyy-MM-dd format) to match Transactions with.
+     * <p>
+     * description The description to match Transactions with.
+     * <p>
+     * vendor The vendor to match Transactions with.
+     * <p>
+     * amount The amount to match Transactions with.
+     * <p>
+     * Note: This method is case-sensitive.
      */
-    public static void viewByCustomSearch(String startDate, String endDate, String description, String vendor, String amount) throws IOException {
+    public static void viewByCustomSearch() throws IOException {
+        System.out.println("Welcome to Custom Search. Leave any field empty to not search. Make sure to follow the format, or all data will not be saved.");
+        String startDate = Display.promptString("Start Date (yyyy-MM-dd format)");
+        String endDate = Display.promptString("End Date (yyyy-MM-dd) format");
+        String description = Display.promptString("Description");
+        String vendor = Display.promptString("Vendor");
+        String amount = Display.promptString("Amount");
+
         ArrayList<Transaction> searchResult = getData();
 
         if (!startDate.equals("")) {
@@ -195,7 +244,6 @@ public class TransactionData {
         if (!amount.equals("")) {
             searchResult.removeIf(n -> n.getAmount() != Float.parseFloat(amount));
         }
-
         for (Transaction n : searchResult) {
             System.out.println(n);
         }
