@@ -130,9 +130,8 @@ public class TransactionData {
     public static void viewYearToDate() throws IOException {
         LocalDate currentDate = LocalDate.now();
         LocalDate startOfCurrYear = LocalDate.parse((currentDate.getYear()) + "-01-01");
-        LocalDate startOfLastYear = LocalDate.parse((currentDate.getYear() - 1) + "-01-01");
         for (Transaction n : getData()) {
-            if (n.getDate().isAfter(startOfLastYear) && n.getDate().isBefore(startOfCurrYear)) {
+            if (n.getDate().isAfter(startOfCurrYear)) {
                 System.out.println(n);
             }
         }
