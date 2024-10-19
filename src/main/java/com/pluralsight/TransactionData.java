@@ -66,10 +66,10 @@ public class TransactionData {
         String vendor = Display.promptString("Who was the vendor correlated with this payment?");
         String tags = Display.promptString("What tags are related. Separate with comma, no spaces");
 
-        String amount = String.valueOf(-1 * Float.parseFloat(Display.promptString("How much was the payment?")));
+        String amount = Display.promptString("How much was the payment?");
 
         if (Float.parseFloat(amount) >= 0) {
-            String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + amount + "|" + tags;
+            String transactionString = date + "|" + time + "|" + description + "|" + vendor + "|" + -1 * Float.parseFloat(amount) + "|" + tags;
             data.add(new Transaction(transactionString));
             writer.write(transactionString);
             writer.newLine();
