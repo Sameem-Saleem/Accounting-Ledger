@@ -19,6 +19,7 @@ Note that information entered must follow the guidelines expressed in the docume
     - [All](#all)
     - [Deposits](#deposits)
     - [Payments](#payments)
+    - [Tags](#tags)
     - [Reports](#reports)
     - [Home](#home)
 - [Reports Screen](#reports-screen)
@@ -28,6 +29,7 @@ Note that information entered must follow the guidelines expressed in the docume
     - [Previous Year](#previous-year)
     - [Search by Vendor](#search-by-vendor)
     - [Custom Search](#custom-search)
+    - [Search by Tags](#search-by-tags)
     - [Back](#back)
 - [Interesting Code](#interesting-code)
     - [Custom Search Logic](#custom-search-logic)
@@ -38,9 +40,9 @@ Note that information entered must follow the guidelines expressed in the docume
 
 
 ## Installation
-You can pull this repository locally to access the program. Make sure to use a Java IDE to run the program, or manually compile with Javac and run with Java. Steps are below:
+You can pull this repository locally to access the program. Make sure to use a Java IDE to run the program, or manually compile with Javac and run with Java. Steps are below to run manually:
 1. `git clone https://github.com/Sameem-Saleem/Accounting-Ledger.git`
-2. `javac src/main/java/com/pluralsight/Main`
+2. `javac src/main/java/com/pluralsight/Main.java`
 3. `java src/main/java/com/pluralsight/Main`
 
 Suggested software:
@@ -49,15 +51,16 @@ Suggested software:
 
 
 If you have **previous transactions** you want to import, you must **add them manually** into the **transactions.csv** file (or whatever csv file you want to create), splitting the fields like the following (also, add the following line to the front of the file):
-`DATE|TIME|DESCRIPTION|VENDOR|AMOUNT`
+`DATE|TIME|DESCRIPTION|VENDOR|AMOUNT|TAGS`
 
 Example:
-`2022-01-01|00:20:59|Software Installation|Sameem Saleem|500.0`
+`2022-01-01|00:20:59|Software Installation|Sameem Saleem|500.0|Example,Software`
 
 Notes:
 - The **date** *must be* in `YYYY-MM-DD` format
 - The **time** *must be* in `HH:MM:SS` 24 hour format 
-- The **amount** *must be* in a float format, such as: `-50.0` 
+- The **amount** *must be* in a float format, such as: `-50.0`
+- The **tags** *must be* separated by a comma and no space
 
 
 
@@ -75,7 +78,7 @@ The user must enter the key correlating to the menu item, and press enter. *This
 ### Access
 This option takes in an access point, or filename, creating or loading the corresponding file. 
 
-If the file is newly created, it will prepend `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT` to the front of the file.
+If the file is newly created, it will prepend `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT|TAGS` to the front of the file.
 
 
 
@@ -101,24 +104,24 @@ The user must enter the key correlating to the menu item, and press enter. *This
 
 
 ### Add Deposit
-This option takes in a description, vendor, and deposit amount, generating the date and time via system. 
+This option takes in a description, vendor, tags, and deposit amount, generating the date and time via system. 
 
-This information is then appended in to the `transactions.csv` file or accessed file in `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT` format, where the amount if positive, indicating a deposit.
+This information is then appended in to the `transactions.csv` file or accessed file in `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT|TAGS` format, where the amount if positive, indicating a deposit.
 
 The following image displays adding a deposit:
 
-![Deposit Example](https://cdn.discordapp.com/attachments/219982898550276096/1296870389481341062/Screenshot_2024-10-18_091809.png?ex=6713dc2b&is=67128aab&hm=54209c2336c17316f04861f9dd4694a6d88f42af1f570e087abcefc8e69825de&)
+![Deposit Example](https://media.discordapp.net/attachments/219982898550276096/1297039846728273971/image.png?ex=671479fd&is=6713287d&hm=6cca56bb2a30d6681a1ff5cc6fe621b4b610dcfafc0ac4f8d66453a4d9633dcc&=&format=webp&quality=lossless)
 
 
 
 ### Make Payment
-This option takes in a description, vendor, and amount of payment, generating the date and time via system. 
+This option takes in a description, vendor, tags, and amount of payment, generating the date and time via system. 
 
-This information is then appended in to the `transactions.csv` file or accessed file in `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT` format, where the amount if negative, indicating a payment.
+This information is then appended in to the `transactions.csv` file or accessed file in `DATE|TIME|DESCRIPTION|VENDOR|AMOUNT|TAGS` format, where the amount if negative, indicating a payment.
 
 The following image displays making a payment:
 
-![Payment Example](https://cdn.discordapp.com/attachments/219982898550276096/1296870612320518226/Screenshot_2024-10-18_091834.png?ex=6713dc60&is=67128ae0&hm=f38b2346edabfe667e9e3ab2bbaa945c2c04270da5f81dfb7fbe7466eb2edce4&)
+![Payment Example](https://cdn.discordapp.com/attachments/219982898550276096/1297040410803306557/image.png?ex=67147a83&is=67132903&hm=4d778c4ced6eca4c6beb6afc8d2c8d6768273499c725a94b1d311e7d3803a796&)
 
 
 
@@ -139,9 +142,9 @@ This option saves changes to the file and closes the program.
 ## Ledger screen
 The ledger screen looks like the following:
 
-![Ledger Screen](https://cdn.discordapp.com/attachments/219982898550276096/1296868157633466459/Screenshot_2024-10-18_091007.png?ex=6713da17&is=67128897&hm=1e4025ca07b27a8e1e52f6f0fdd5a111543510563a9b1dd424f4d583b69c0eb7&)
+![Ledger Screen](https://media.discordapp.net/attachments/219982898550276096/1297037731616133210/image.png?ex=67147805&is=67132685&hm=8a687c711eec5b85c0165a0ef2eb1db2924b44bcc37a67b9be5a093b59fdd7a4&=&format=webp&quality=lossless)
 
-It provides the options to view all payments and deposits, view only payments, view only deposits, access the report menu, and return back to the home screen. 
+It provides the options to view all payments and deposits, view only payments, view only deposits, view all tags, access the report menu, and return back to the home screen. 
 
 The user must enter the key correlating to the menu item, and press enter. This is not case-sensitive.
 
@@ -159,6 +162,11 @@ This option outputs all deposits created during runtime and saved in the `transa
 
 ### Payments
 This option outputs all payments created during runtime and saved in the `transactions.csv` file or accessed file, descending order of date created.
+
+
+
+### Tags
+This option outputs all tags created during runtime and saved in the `transactions.csv` file or accessed file, descending order of date created. Each tag is displayed once.
 
 
 
@@ -220,6 +228,13 @@ This option prompts the following:
 For any of these options, the user can click enter without typing anything, and it will skip that filter.
 
 Then, it outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file or accessed file, **that match all of the entered parameters**, descending order of date created.
+
+
+
+### Search by Tags
+This option first displays all available tags to search from.
+
+Then, it outputs all transactions, including both payments and deposits, created during runtime and saved in the `transactions.csv` file or accessed file, **that contain the tag specified by the user**, descending order of date created.
 
 
 
